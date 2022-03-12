@@ -6,200 +6,228 @@
 <html>
 
 <head>
+    <!--
+    https://codepen.io/ronkeee/pen/KKgJmmz
+  -->
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>Credit card chekout</title>
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous" />
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
-        crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css" />
+
+    <style>
+        /* Chrome, Safari, Edge, Opera */
+        
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        /* Firefox */
+        
+        input[type="number"] {
+            -moz-appearance: textfield;
+        }
+        
+        .cardInformation {
+            padding: 20% 10%;
+        }
+        
+        .cardImageFront {
+            font-size: 62.5%;
+            margin: 30% 10%;
+            padding: 3% 5%;
+            height: 30em;
+            background-color: #8ec5fc;
+            background-image: linear-gradient(62deg, #8ec5fc 0%, #e0c3fc 100%);
+            border-radius: 5%;
+        }
+        
+        .cardImageFront input {
+            font-size: 1rem;
+        }
+        
+        .cardImageFront #cardImageNumber {
+            font-size: 2rem;
+        }
+        
+        input.removeBorders {
+            color: white;
+            border: none;
+            outline: none;
+            height: 30px;
+            transition: height 1s;
+            background-color: transparent !important;
+            -webkit-transition: height 1s;
+        }
+        
+        input.removeBorders:focus {
+            background-color: transparent !important;
+            color: white;
+            border: none;
+            outline: none;
+            height: 30px;
+            transition: height 1s;
+            -webkit-transition: height 1s;
+        }
+    </style>
 </head>
 
 <body>
     <!-- ¿Qué es el BIN?
-El BIN (Número de Identificación Bancario) se compone de seis números con los que se identifica al banco emisor. Con estos números también puedes saber si la tarjeta es de débito o crédito.
-
-Cada emisor de tarjeta tiene un número establecido para reconocer qué tipo de tarjeta es. Por ejemplo, las tarjetas emitidas por Visa inician con 4, las de MasterCard con 5 y America Express inicia con 3.
-
-Los siguientes números indican el banco emisor, el tipo de tarjeta (crédito o débito), el estado de la tarjeta (gold, platinum, clásica, etc)
-Si el el primer dígito de la tarjeta empieza con 4 es una tarjeta tipo VISA, 5 es Mastercard, 6 es de tipo Discovery.
-Los siguientes 5 disgitos del BIN determinan la entidad bancaria y pais de origen.
-A estos seis primeros digitos de la tarjeta se les conoce como el Bin bancario.
-El resto de números, menos el último dígito, se conoce como digito de control o digito de validación.
-Lista de formatos de números de tarjetas de crédito
-Emisor de la tarjeta de crédito	Empieza con (Rango IIN)	Número de dígitos
-American Express	34, 37	15
-Diners Club - Carte Blanche	300, 301, 302, 303, 304, 305	14
-Diners Club - International	36	14
-Diners Club - USA & Canada	54	16
-Discover	6011, 622126 to 622925, 644, 645, 646, 647, 648, 649, 65	16
-InstaPayment	637, 638, 639	16
-JCB	3528 to 3589	16
-Laser	6304, 6706, 6771, 6709	16-19
-Maestro	5018, 5020, 5038, 5893, 6304, 6759, 6761, 6762, 6763	16-19
-MasterCard	51, 52, 53, 54, 55	16-19
-Visa	4	13-16
-Visa Electron	4026, 417500, 4508, 4844, 4913, 4917	16
-¿Cómo validan un número de tarjeta de crédito?
-La mayoría de los números de tarjetas de crédito pueden ser validados usando el algoritmo de Luhn, que es más o menos una fórmula glorificada de Modulo 10.
-
-Básicamente, el algoritmo Mod 10 es una fórmula sencilla para comprobar la suma de comprobación y es una forma sencilla de validar la mayoría de los números de identificación como los números de las tarjetas de crédito, pre-pagas y débito, los números IMEI, el número de la Seguridad Social canadiense, el número de la Seguridad Social griega (AMKA) y el número de identificación del proveedor nacional de los Estados Unidos.
-
-¿Qué es un número de identificación del emisor (IIN)?
-El número de identificación del emisor (IIN) se refiere a los primeros dígitos de un número de tarjeta de pago emitido por una institución financiera. Normalmente son los primeros seis a ocho dígitos que se encuentran en una tarjeta de crédito, débito u otro tipo de tarjeta de pago.
-
-El número de identificación del emisor es único para el emisor y su proveedor de red asociado. El IIN ayuda a identificar la red de procesamiento utilizada para las transacciones de la tarjeta.
-
-En este link (en inglés) más detalles sobre este número.
-
-BIN de los principales bancos que operan en México
-Con esta tabla, puedes comprobar a qué banco pertenece tu tarjeta con el BIN de la misma:
-
-BIN	Banco emisor	Marca de la tarjeta	Tipo de tarjeta	Sub-marca
-49317244	BANORTE	VISA	credit	TRADITIONAL
-455507	BBVA BANCOMER	VISA	credit	BUSINESS
-47783181	Banco Azteca S.a. Institucion De Banca Multiple	VISA	credit	TRADITIONAL
-47783131	Banco Azteca S.a. Institucion De Banca Multiple	VISA	credit	TRADITIONAL
-49137194	BANCO MERCANTIL DEL NORTE S.A.., INSTITUCISN DE BANCA MZLTIP	VISA	credit	GOLD
-49317294	BANORTE	VISA	credit	TRADITIONAL
-43147908	Banco Inbursa, S.a.	VISA	credit	CORPORATE
-430967891	Hsbc Mexico S.a., Institucion De Banca Multiple, Grupo Finan	VISA	debit	TRADITIONAL
-49137198	BANCO MERCANTIL DEL NORTE S.A.., INSTITUCISN DE BANCA MZLTIP	VISA	credit	GOLD
-49132751	BANCO SANTANDER S.A. INST. DE BANCA MULTIPLE GRUPO FINANCIERO SANTANDER	VISA	credit	BUSINESS
-43777805		VISA	debit	BUSINESS
-49157359	SANTANDER	VISA	credit	TRADITIONAL
-49158671	BANCO MERCANTIL DEL NORTE S.A.., INSTITUCISN DE BANCA MZLTIP	VISA	credit	INFINITE
-47611458		VISA	credit	TRADITIONAL
-49156753	BANCO MERCANTIL DEL NORTE S.A.-INSTIT.DEBANCA MULTIPLE, GRUPO FINANCIERO BANORTE	VISA	debit	ELECTRON
-49134192	BANORTE	VISA	credit	TRADITIONAL
-45137058	Banco Promotor Del Norte, S.a.	VISA	debit	NULL
-49156741	BANCO MERCANTIL DEL NORTE S.A.-INSTIT.DEBANCA MULTIPLE, GRUPO FINANCIERO BANORTE	VISA	debit	ELECTRON
-551276	BANCO NACIONAL DE MEXICO, S.A.	MASTERCARD	debit	DEBIT
-486387		VISA	debit	ELECTRON
-430967395	Hsbc Mexico S.a., Institucion De Banca Multiple, Grupo Finan	VISA	debit	TRADITIONAL
-45738611		VISA	debit	TRADITIONAL
-5,4709E+10	Bbva Bancomer, Sa Instit. De Banca Multiple Grupo Financier	MASTERCARD	credit	STANDARD
-49134314	BANCO NACIONAL DEL EJERCITO, FUERZA AEREA Y ARMADA, S.N.C.	VISA	credit	GOLD
-48303061	HSBC	VISA	debit	TRADITIONAL
-45738635		VISA	debit	TRADITIONAL
-45474715	BANCO SANTANDER S.A. INST. DE BANCA MULTIPLE GRUPO FINANCIERO SANTANDER	VISA	credit	CORPORATE
-46459949		VISA	credit	TRADITIONAL
-43777874		VISA	debit	BUSINESS
-44154562	BANCO NACIONAL DE MEXICO, S.A.	VISA	debit	PLATINUM
-44879073	Banca Afirme, S.a.	VISA	credit	PLATINUM
-40276632	Banco Azteca	VISA	debit	ELECTRON
-454069	TARJETAS BANAMEX S.A. DE C.V. SOFOM ENTIDAD REGULADA	VISA	credit	TRADITIONAL
-430967691	Hsbc Mexico S.a., Institucion De Banca Multiple, Grupo Finan	VISA	debit	TRADITIONAL
-41526993		VISA	debit	BUSINESS
-491294	HSBC MEXICO S.A., INSTITUCION DE BANCA MULTIPLE, GRUPO FINAN	VISA	credit	GOLD
-52882899	BANCO NACIONAL DE MEXICO, S.A.	MASTERCARD	debit	STANDARD PREPAID
-49108914	HSBC	VISA	debit	ELECTRON
-402766684	Banco Azteca	VISA	debit	TRADITIONAL
-402766638	Banco Azteca	VISA	debit	TRADITIONAL
-430967530	Hsbc Mexico S.a., Institucion De Banca Multiple, Grupo Finan	VISA	debit	TRADITIONAL
-41526945		VISA	debit	BUSINESS
-40276641	Banco Azteca	VISA	debit	GOLD
-46459920		VISA	credit	TRADITIONAL
-46459915		VISA	credit	TRADITIONAL
-402766770	Banco Azteca	VISA	debit	TRADITIONAL
-48334771		VISA	credit	TRADITIONAL
-44879097	Banca Afirme, S.a.	VISA	credit	INFINITE
-44154536	BANCO NACIONAL DE MEXICO, S.A.	VISA	debit	PLATINUM
-44154524	BANCO NACIONAL DE MEXICO, S.A.	VISA	debit	PLATINUM
-48504052		VISA	credit	INFINITE
-523706		MASTERCARD	credit	STANDARD
-376727	AMERICAN EXPRESS	AMEX	credit	AMERICAN EXPRESS
-48334747		VISA	credit	TRADITIONAL
-45474767	BANCO SANTANDER S.A. INST. DE BANCA MULTIPLE GRUPO FINANCIERO SANTANDER	VISA	credit	CORPORATE
-528873	BANCO NACIONAL DE MEXICO, S.A.	MASTERCARD	credit	STANDARD
-549138	BANAMEX	MASTERCARD	credit	WORLD
-52083028		MASTERCARD	credit	PLATINIUM
-48303037	HSBC	VISA	debit	TRADITIONAL
-41243260		VISA	debit	ELECTRON
-49137678	Banorte	VISA	credit	CORPORATE
-44013365		VISA	credit	GOLD
-40761219		VISA	debit	TRADITIONAL
-49134343	BANCO NACIONAL DEL EJERCITO, FUERZA AEREA Y ARMADA, S.N.C.	VISA	credit	GOLD
-491089985	Hsbc	VISA	debit	TRADITIONAL
-49132760	BANCO SANTANDER S.A. INST. DE BANCA MULTIPLE GRUPO FINANCIERO SANTANDER	VISA	credit	BUSINESS
-43147912	Banco Inbursa, S.a.	VISA	credit	CORPORATE
-491089905	Hsbc	VISA	debit	TRADITIONAL
-49108903	HSBC	VISA	debit	ELECTRON
-42598161	Ixe Banco S.a.	VISA	credit	GOLD
-430967919	Hsbc Mexico S.a., Institucion De Banca Multiple, Grupo Finan	VISA	debit	TRADITIONAL
-46969345		VISA	debit	TRADITIONAL
-546338	WIRECARD BANK AG	MASTERCARD	credit	STANDARD
-469693		VISA	debit	NULL
-434798		VISA	debit	BUSINESS
-47930370		VISA	debit	TRADITIONAL
-42019959	Banco Del Bajio	VISA	credit	GOLD
-49317324	BANORTE	VISA	credit	GOLD
-45137088	Banco Promotor Del Norte, S.a.	VISA	charge	NULL
-48303085	HSBC	VISA	debit	TRADITIONAL
-I cant belive i need to take drugs in order to be able to answer back to people that dissrecsprects me fuuuck
-https://tmespeciales.ticketmaster.com.mx/bines/iframe.html?gclid=CjwKCAiA4KaRBhBdEiwAZi1zzgEA3iwY0JxtzmmSe1ASNY5jd9CCYvnEnaObhYolNKrgD0LKn04QOxoCX2cQAvD_BwE
-https://bincheck.org/mexico?page=9
-https://es.wikipedia.org/wiki/N%C3%BAmero_de_tarjeta_bancaria
-http://www.pagafacil.gob.mx/pagafacil/Bines%20y%20Bancos%20Participantes.pdf
-https://es.wikipedia.org/wiki/Algoritmo_de_Luhn#:~:text=El%20algoritmo%20de%20Luhn%20o,cr%C3%A9dito%2C%20n%C3%BAmeros%20IMEI%2C%20etc.
-https://airbnb.design/introducing-lottie/
-https://payspacemagazine.com/banks/como-averiguar-cual-es-el-banco-emisor-de-una-tarjeta-de-credito/#:~:text=Explicaci%C3%B3n%20sobre%20el%20n%C3%BAmero%20de%20tarjeta%20bancaria&text=Los%20primeros%20seis%20d%C3%ADgitos%20del,que%20ha%20emitido%20la%20tarjeta.
-
-
 
 -->
 
     <div class="container-fluid">
-        <div class="row">
-            <div class="col-12"></div>
-        </div>
-        <div class="col-12 col-md-6">
-            <div class="cardImageFront">
-                <div class="row">
-                    <div class="iconPaymentNetwork"></div>
-                </div>
-                <div class="row">
-                    <input type="text" class="col-12 form-control" id="cardImageNumber" />
-                </div>
-                <div class="row">
-                    <input type="text" class="form-control-sm" id="cardImageName" />
-                    <input type="text" class="form-control-sm" id="cardImageExpirationDate" />
-                </div>
+        <div class="row my-3">
+            <div class="col-12">
+                <h1 class="text-center">Checkout</h1>
             </div>
-            <div class="cardImageback"></div>
         </div>
-        <div class="col-12 col-md-6 cardInformation">
-            <form>
-                <div class="row">
-                    <div class="mb-3 mt-3">
-                        <label class="form-label" for="cardNumber">Card Number</label>
-                        <input type="number" class="form-control" id="cardNumber" placeholder="xxxxx" required />
-                        <div class="invalid-feedback">
-                            Please enter a valid card number.
+        <div class="row">
+            <div class="col-12 col-md-6">
+                <div class="cardImageFront">
+                    <div class="row">
+                        <div class="col-3 offset-9">
+                            <div>
+                                <svg class="masterCard" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="8em" height="8em">
+                    <linearGradient
+                      id="s12XBmQr1zoynahR3JxmJa"
+                      x1="18.5"
+                      x2="18.5"
+                      y1="14"
+                      y2="50"
+                      gradientUnits="userSpaceOnUse"
+                      spreadMethod="reflect"
+                    >
+                      <stop offset="0" stop-color="#6dc7ff" />
+                      <stop offset="1" stop-color="#e6abff" />
+                    </linearGradient>
+                    <path
+                      fill="url(#s12XBmQr1zoynahR3JxmJa)"
+                      d="M23,32c0-6.645,3.629-12.447,9-15.565C29.349,14.896,26.28,14,23,14c-9.926,0-18,8.074-18,18 c0,9.926,8.074,18,18,18c3.28,0,6.349-0.896,9-2.435C26.629,44.447,23,38.645,23,32z"
+                    />
+                    <linearGradient
+                      id="s12XBmQr1zoynahR3JxmJb"
+                      x1="23"
+                      x2="23"
+                      y1="13"
+                      y2="51"
+                      gradientUnits="userSpaceOnUse"
+                      spreadMethod="reflect"
+                    >
+                      <stop offset="0" stop-color="#1a6dff" />
+                      <stop offset="1" stop-color="#c822ff" />
+                    </linearGradient>
+                    <path
+                      fill="none"
+                      stroke="url(#s12XBmQr1zoynahR3JxmJb)"
+                      stroke-miterlimit="10"
+                      stroke-width="2"
+                      d="M23,50c-9.926,0-18-8.074-18-18 s8.074-18,18-18s18,8.074,18,18S32.926,50,23,50z"
+                    />
+                    <linearGradient
+                      id="s12XBmQr1zoynahR3JxmJc"
+                      x1="41"
+                      x2="41"
+                      y1="13"
+                      y2="51"
+                      gradientUnits="userSpaceOnUse"
+                      spreadMethod="reflect"
+                    >
+                      <stop offset="0" stop-color="#1a6dff" />
+                      <stop offset="1" stop-color="#c822ff" />
+                    </linearGradient>
+                    <path
+                      fill="none"
+                      stroke="url(#s12XBmQr1zoynahR3JxmJc)"
+                      stroke-miterlimit="10"
+                      stroke-width="2"
+                      d="M41,50c-9.926,0-18-8.074-18-18 s8.074-18,18-18s18,8.074,18,18S50.926,50,41,50z"
+                    />
+                    <linearGradient
+                      id="s12XBmQr1zoynahR3JxmJd"
+                      x1="32"
+                      x2="32"
+                      y1="20.03"
+                      y2="43.97"
+                      gradientUnits="userSpaceOnUse"
+                      spreadMethod="reflect"
+                    >
+                      <stop offset="0" stop-color="#6dc7ff" />
+                      <stop offset="1" stop-color="#e6abff" />
+                    </linearGradient>
+                    <path
+                      fill="url(#s12XBmQr1zoynahR3JxmJd)"
+                      d="M32,20.03c-3.739,2.819-6,7.26-6,11.97s2.261,9.151,6,11.97c3.739-2.819,6-7.26,6-11.97 S35.739,22.849,32,20.03z"
+                    />
+                  </svg>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row my-3">
+                        <div class="col-12">
+                            <input type="text" class="removeBorders" id="cardImageNumber" readonly="readonly" />
+                        </div>
+                    </div>
+                    <div class="row my-3">
+                        <div class="col-12">
+                            <input type="text" class="removeBorders form-control-sm" id="cardImageName" readonly="readonly" />
+                        </div>
+                    </div>
+                    <div class="row my-3 justify-content-between">
+                        <div class="col-4">
+                            <input type="text" class=" removeBorders form-control-sm" id="cardImageDate" readonly="readonly" />
+                        </div>
+                        <div class="col-4">
+                            <input type="text" class="removeBorders form-control-sm" id="cardImageCvv" readonly="readonly" />
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <label class="form-label col-12" for="cardName">Name</label>
-                    <input type="text" class="form-control" id="cardName" placeholder="xxxxx xxxxx xxxxx" required />
-                </div>
-                <div class="row">
-                    <label class="form-label col-5" for="cardDate">Expiration Date</label>
-                    <input type="number" class="form-control" id="cardDate" placeholder="MM YY" required />
-                    <div class="invalid-feedback">
-                        <p>Please enter a valid Date</p>
+                <div class="cardImageback"></div>
+            </div>
+            <div class="col-12 col-md-6">
+                <form class="cardInformation">
+                    <div class="row my-3 p-0">
+                        <label class="form-label col-12" for="cardNumber">Card Number</label
+              >
+              <input
+                type="tel"
+                class="form-control"
+                id="cardNumber"
+                placeholder="xxxxx xxxxx xxxxx xxxxx"
+                maxlength="19"
+                required
+              />
+              <div class="invalid-feedback">
+                Please enter a valid card number.
+              </div>
+            </div>
+            <div class="row my-3 p-0">
+              <label class="form-label col-12" for="cardName">Name</label>
+                        <input type="tel" class="form-control" id="cardName" placeholder="John Doe" required />
                     </div>
-                    <label class="form-label col-5" for="cardCvv">CVV</label>
-                    <input type="number" class="form-control" id="cardCvv" placeholder="XXX" required />
-                    <div class="invalid-feedback">
-                        <p>Please enter a valid CVV</p>
+                    <div class="row my-3 p-0">
+                        <div class="col-6 ps-0 pe-2">
+                            <label class="form-label" for="cardDate">Expiration Date</label>
+                            <input type="tel" class="form-control" id="cardDate" maxlength="5" placeholder="MM/YY" required />
+                            <div class="invalid-feedback">
+                                <p>Please enter a valid Date</p>
+                            </div>
+                        </div>
+                        <div class="col-6 ps-2 pe-0">
+                            <label class="form-label" for="cardCvv">CVV</label>
+                            <input type="tel" class="form-control" id="cardCvv" maxlength="3" placeholder="123" required />
+                            <div class="invalid-feedback">
+                                <p>Please enter a valid CVV</p>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
     </div>
     <!--[if lt IE 7]>
@@ -208,6 +236,8 @@ https://payspacemagazine.com/banks/como-averiguar-cual-es-el-banco-emisor-de-una
         <a href="#">upgrade your browser</a> to improve your experience.
       </p>
     <![endif]-->
+    <script type="text/javascript" src="script.js">
+    </script>
 </body>
 
 </html>
