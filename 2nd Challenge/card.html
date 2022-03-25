@@ -406,26 +406,29 @@
                 maxlength="19"
                 required
               />
-              <div class="invalid-feedback">
-                Please enter a valid card number.
+              <div id="invalidNumber" class="invisible">
+                <p>Please enter a valid card number.</p>
               </div>
             </div>
             <div class="row my-3 p-0">
               <label class="form-label col-12" for="cardName">Name</label>
                         <input type="tel" class="form-control" id="cardName" placeholder="John Doe" required />
+                        <div id="invalidName" class="invisible">
+                            <p>Please enter a valid name.</p>
+                        </div>
                     </div>
                     <div class="row my-3 p-0">
                         <div class="col-6 ps-0 pe-2">
                             <label class="form-label" for="cardDate">Expiration Date</label>
                             <input type="tel" class="form-control" id="cardDate" maxlength="5" placeholder="MM/YY" required />
-                            <div class="invalid-feedback">
+                            <div id="invalidDate" class="invisible">
                                 <p>Please enter a valid Date</p>
                             </div>
                         </div>
                         <div class="col-6 ps-2 pe-0">
                             <label class="form-label" for="cardCvv">CVV</label>
                             <input type="tel" class="form-control" id="cardCvv" maxlength="3" placeholder="123" required />
-                            <div class="invalid-feedback">
+                            <div id="invalidCvv" class="invisible">
                                 <p>Please enter a valid CVV</p>
                             </div>
                         </div>
