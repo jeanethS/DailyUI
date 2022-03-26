@@ -28,7 +28,7 @@ cvv.addEventListener("keyup", (event) => {
     imgCardCvv.value = cvv.value;
     validateCvv();
 });
-//337ja&Bz(vFiAb8tCeyq cyberdystopy
+//337ja&Bz(vFiAb8tCeyq1 cyberdystopy
 //files.000webhost.com   21 pruebaasdasdasdasdasd
 //verify wethever the card is valid or not using the card number and the algorithm luhn
 function luhnCheck(cardNumber) {
@@ -49,7 +49,7 @@ const cardType = (cardNumber) => {
     } else if (cardNumber.startsWith("5")) {
         return "MasterCard";
     } else if (cardNumber.startsWith("3")) {
-        return "American Express";
+        return "Amex";
     } else {
         return "Invalid";
     }
